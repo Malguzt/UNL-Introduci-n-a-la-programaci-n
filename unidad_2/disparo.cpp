@@ -23,28 +23,28 @@ int main(int argc, char *argv[]) {
 	
 	cout<<"introduce el angulo de disparo 1: ";
 	cin>>a;
-	
 	d=pow(V0,2)*sin(2*a*PI/180)/G; //calculo de la distancia
+	cout.setf(ios::fixed);
 	cout.precision(2);
-	cout<<"\nLa bala cayo a " << fixed << d <<" metros.\n";
+	cout<<"\nLa bala cayo a " << d <<" metros.\n";
+	
 	cout<<"introduce el angulo de disparo 2: ";
 	cin>>a;
-	
 	d=pow(V0,2)*sin(2*a*PI/180)/G; //calculo de la distancia
 	cout<<"\nLa bala cayo a "<<d<<" metros.\n";
+	
 	cout<<"introduce el angulo de disparo 3: ";
 	cin>>a;
-	
-	d=pow(V0,2)*sin(2*a*PI/180)/G; //calculo de la distancia
+	d=pow(V0,2)*sin(2*a*PI/180)/G - x; //calculo de la distancia
 	cout<<"\nLa bala cayo a "<<d<<" metros.\n";
+	
 	cout<<"introduce el angulo de disparo 4: ";
 	cin>>a;
-	
 	d=pow(V0,2)*sin(2*a*PI/180)/G; //calculo de la distancia
 	cout<<"\nLa bala cayo a "<<d<<" metros.\n";
+	
 	cout<<"introduce el angulo de disparo 5: ";
 	cin>>a;
-	
 	d=pow(V0,2)*sin(2*a*PI/180)/G; //calculo de la distancia
 	cout<<"\nLa bala cayo a "<<d<<" metros.\n";
 	system("PAUSE"); //espera la pulsaci\ufffdn de una tecla
