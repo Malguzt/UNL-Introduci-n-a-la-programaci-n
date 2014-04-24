@@ -1,0 +1,22 @@
+PROCESO TicTacToe
+	Tomar una esquina libre
+	SI oponente tomo el centro Y esquina opuesta esta libre
+		Tomar esquina opuesta a la primera
+	SINO
+		Tomar esquina libre
+	FINSI
+
+	SI oponente tiene 2 en linea
+		Interseptar
+	SINO
+		Tomar esquina libre
+	FINSI
+
+	MIENTRA NO queden celdas libres
+		SI se tienen 2 en linea
+			Completar linea
+		SINO
+			Tomar cualquiera
+		FINSI
+	FINMIENTRAS
+FINPROCESO

@@ -1,0 +1,33 @@
+PROCESO AdivinarNumero
+	Preguntar por 1000
+	SI NO es el número
+		Preguntar por 2000
+		SI NO es el número
+			PedirOtroNumero
+		FINSI
+	FINSI
+FINPROCESO
+
+PROCESO PedirOtroNumero
+	SI respondió caliente
+		SI número anterior es menor
+			Pedir número más grande
+		SINO
+			Pedir número más chico
+		FINSI
+	SINO
+			SI respondió frio
+				SI número anterior es menor
+					Pedir número más chico
+				SINO
+					Pedir número más grande
+				FINSI
+			SINO
+				Pedir número entre el anterior y el ultimo
+		FINSI
+	FINSI
+
+	SI NO es el número
+		PedirOtroNumero
+	FINSI
+FINPROCESO

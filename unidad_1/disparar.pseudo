@@ -1,0 +1,18 @@
+PROCESO DarEnElBlanco
+	Disparar a 45º
+	SI NO dio en el blanco
+		AjustarYDisparar
+	FINSI
+FINPROCESO
+
+PROCESO AjustarYDisparar
+	SI el blanco esta más lejos
+		Disparar con un angulo menor
+	SINO
+		Disparar con un angulo mayo
+	FINSI
+	
+	SI NO dio en el blanco
+		AjustarYDisparar
+	FINSI
+FINPROCESO
