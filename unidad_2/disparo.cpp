@@ -25,7 +25,8 @@ int main(int argc, char *argv[]) {
 	cin>>a;
 	
 	d=pow(V0,2)*sin(2*a*PI/180)/G; //calculo de la distancia
-	cout<<"\nLa bala cayo a "<<d<<" metros.\n";
+	cout.precision(2);
+	cout<<"\nLa bala cayo a " << fixed << d <<" metros.\n";
 	cout<<"introduce el angulo de disparo 2: ";
 	cin>>a;
 	
