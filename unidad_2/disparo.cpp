@@ -11,7 +11,7 @@ using namespace std;
 int main(int argc, char *argv[]) {
 	float a; //variable que contendra el angulo del disparo
 	float d; //variable que contendra la distancia
-	const float V0=60; //velocidad inicial 60 m/s
+	float V0=60; //velocidad inicial 60 m/s
 	int x;
 
 	srand(time(NULL)); //se obtiene una distancia al azar
@@ -40,6 +40,8 @@ int main(int argc, char *argv[]) {
 	
 	cout<<"introduce el angulo de disparo 4: ";
 	cin>>a;
+	cout<<"introduce la velocidad del disparo 4: ";
+	cin>>V0;
 	d=pow(V0,2)*sin(2*a*PI/180)/G; //calculo de la distancia
 	cout<<"\nLa bala cayo a "<<d<<" metros.\n";
 	
