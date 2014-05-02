@@ -34,19 +34,30 @@ int main(int argc, char *argv[]) {
 	srand(time(NULL));
 	int numero = rand() % rango + min;
 	int numeroJugador = 0;
+	int numeroAnterior = 0;
 	int i = 0;
 	
 	while(numeroJugador != numero && i < intentos){
 		cout << "Ingrese un numero\n";
+		numeroAnterior = numeroJugador;
 		cin >> numeroJugador;
 		
 		if(numeroJugador == numero){
 			cout << "Has adivinado, el numero era " << numero << endl;
 		} else {
-			if(numero < numeroJugador) {
-				cout << "El numero que elegiste es mayor al numero objetivo.\n";
-			} else {
-				cout << "El numero que elegiste es menor al numero objetivo.\n";
+			if(i > 0){
+				int diferencia = abs(numero - numeroJugador);
+				int diferenciaAnterior = abs(numero - numeroAnterior);
+				
+				if(diferencia == diferenciaAnterior) {
+					cout << "Templado\n";
+				} else {
+					if(diferencia < diferenciaAnterior){
+						cout << "Caliente\n";
+					} else {
+						cout << "Frio\n";
+					}
+				}
 			}
 		}
 		
