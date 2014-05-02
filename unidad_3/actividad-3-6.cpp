@@ -3,6 +3,7 @@
 #include <cstdlib>
 #include <cstdio>
 #include <ctime>
+#include <conio2.h>
 using namespace std;
 
 int lanzarDados(int tipo, int cantidad, int base){
@@ -24,9 +25,30 @@ int calcularDano(){
 	return dano;
 }
 
+void dibujarFondo(){
+	gotoxy(0, 0);
+	for(int i = 0; i < 15; i++){
+		cout << "                                                                        \n";
+	}
+}
+
 int calcularCura(){
 	
 	return lanzarDados(6, 1, 0);
+}
+
+int imprimirVida(int valor){
+	if(valor < 20){
+		textcolor(RED);
+	} else {
+		if(valor < 50){
+			textcolor(YELLOW);
+		} else {
+			textcolor(GREEN);
+		}
+	}
+	
+	cout << valor << endl;
 }
 
 int main(int argc, char *argv[]) {
@@ -38,15 +60,20 @@ int main(int argc, char *argv[]) {
 	char respuesta = 'p';
 	
 	while (respuesta != 's'){
+		dibujarFondo();
 		switch(respuesta){
 		case 'p':
 			puntos = calcularDano();
-			cout << "\nHas hecho " << puntos << " puntos de daño.\n";
+			textcolor(RED);
+			gotoxy(0,10);
+			cout << "\nHas hecho " << puntos << " puntos de daño.      \n";
 			vidaEnemigo -= puntos;
 			break;
 		case 'c':
 			puntos = calcularCura();
-			cout << "\nTe has curado " << puntos << " puntos de daño.\n";
+			textcolor(GREEN);
+			gotoxy(0,10);
+			cout << "\nTe has curado " << puntos << " puntos de daño.    \n";
 			vidaJugador += puntos;
 			break;
 		default:
@@ -56,28 +83,44 @@ int main(int argc, char *argv[]) {
 		
 		if(vidaEnemigo > 10){
 			puntos = calcularDano();
-			cout << "Te han hecho " << puntos << " puntos de daño.\n";
+			textcolor(RED);
+			gotoxy(0,13);
+			cout << "Te han hecho " << puntos << " puntos de daño.      \n";
 			vidaJugador -= puntos;
 		} else {
 			puntos = calcularCura();
-			cout << "El enemigo se ha curado " << puntos << " puntos de daño.\n";
+			textcolor(GREEN);
+			gotoxy(0,13);
+			cout << "El enemigo se ha curado " << puntos << " puntos de daño.       \n";
 			vidaEnemigo += puntos;
 		}
 		
 		if(vidaEnemigo > 0){
 			if(vidaJugador > 0){
-				cout << "\nTu vida: " << vidaJugador << endl;
-				cout << "La vida de tu enemigo: " << vidaEnemigo << endl;
+				textcolor(BLUE);
+				gotoxy(0,0);
+				cout << "\nTu vida: ";
+				imprimirVida(vidaJugador);
+				
+				textcolor(BLUE);
+				cout << "La vida de tu enemigo: ";
+				imprimirVida(vidaEnemigo);
+				
+				textcolor(BLUE);
 				cout << "p => Pegar\n";
 				cout << "c => Curar\n";
 				cout << "s => Salir\n";
-				cin >> respuesta;
+				respuesta = getch();
 			} else {
-				cout << "Tu cuerpo inerte yace en el suelo.\n";
+				textbackground(RED);
+				textcolor(BLACK);
+				cout << "Tu cuerpo inerte yace en el suelo.      \n";
 				respuesta = 's';
 			}
 		} else {
-			cout << "Has logrado vencer a el vil asesino.\n";
+			textbackground(GREEN);
+			textcolor(BLACK);
+			cout << "Has logrado vencer al vil asesino.        \n";
 			respuesta = 's';
 		}
 	}
