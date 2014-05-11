@@ -9,30 +9,19 @@ using namespace std;
 #define ANCHO 80
 #define ALTO 30
 
-struct punto {
-	float x;
-	float y;
-};
+float pelotaX = 0;
+float pelotaY = 0;
+float pelotaAngulo = 315;
+float pelotaVelocidad = 2;
 
-struct vector {
-	struct punto posicion;
-	float angulo; 
-	float magnitud;
-};
-
-struct linea {
-	struct punto inicio;
-	struct punto fin;
-};
-
-void dibujarFondo(struct vector pelota){
+void dibujarFondo(){
 	for(int i = 0; i < ANCHO; i++){
 		for(int j = 0; j < ALTO; j++){
 			gotoxy(i, j);
-			if(i == ceil(pelota.posicion.x) && j == ceil(pelota.posicion.y)){
+			if(i == ceil(pelotaX) && j == ceil(pelotaY)){
 				cout << "o";
 			} else {
-				if(i == 0 || i == ANCHO - 1 || j == 0 || j == ALTO - 1){
+				if(i == 1 || i == ANCHO - 1 || j == 1 || j == ALTO - 1){
 					cout << "*";
 				} else {
 					cout << " ";
@@ -40,95 +29,83 @@ void dibujarFondo(struct vector pelota){
 			}
 		}
 	}
+	
+	gotoxy(0, ALTO + 2);
+	cout << "Angulo: " << pelotaAngulo << "      ";
+	cout << "(x, y): (" << ceil(pelotaX) << "; " << ceil(pelotaY) << ")      \n";
 }
 
 int anguloRandom(int anguloBase){
+	int nuevoAngulo = rand()% 5 + (anguloBase - 2);
+	
+	gotoxy(0, ALTO + 4);
+	cout << "Nuevo angulo: " << nuevoAngulo << "        ";
 
-	return rand()% 11 + (anguloBase - 5);
+	return anguloBase;
 }
 
-struct vector calcularPelota(struct vector pelota){
-	bool reboto = false;
-	float siguienteX = pelota.posicion.x + sin(pelota.angulo) * pelota.magnitud;
-	float siguienteY = pelota.posicion.y + cos(pelota.angulo) * pelota.magnitud;
+void calcularPelota(){
+	pelotaX += sin(pelotaAngulo) * pelotaVelocidad;
+	pelotaY += cos(pelotaAngulo) * pelotaVelocidad;
 	
-	if(siguienteX >= ANCHO){
-		if(pelota.angulo > 90){
-			pelota.angulo -= anguloRandom(90);
+	if(pelotaX >= ANCHO - 1){
+		if(pelotaAngulo > 270){
+			pelotaAngulo -= anguloRandom(90);
 		} else {
-			pelota.angulo += anguloRandom(90);
+			pelotaAngulo += anguloRandom(90);
 		}
-		reboto = true;
 	}
 	
-	if(siguienteY >= ALTO){
-		if(pelota.angulo > 270){
-			pelota.angulo -= anguloRandom(270);
+	if(pelotaY >= ALTO - 1){
+		if(pelotaAngulo > 270){
+			pelotaAngulo -= anguloRandom(270);
 		} else {
-			pelota.angulo -= anguloRandom(270);
+			pelotaAngulo -= anguloRandom(90);
 		}
-		reboto = true;
 	}
 	
-	if(siguienteX <= 0){
-		if(pelota.angulo > 180){
-			pelota.angulo += anguloRandom(90);
+	if(pelotaX <= 1){
+		if(pelotaAngulo > 180){
+			pelotaAngulo += anguloRandom(90);
 		} else {
-			pelota.angulo -= anguloRandom(90);
+			pelotaAngulo -= anguloRandom(90);
 		}
-		reboto = true;
 	}
 	
-	if(siguienteY <= 0){
-		if(pelota.angulo > 90){
-			pelota.angulo += anguloRandom(90);
+	if(pelotaY <= 1){
+		if(pelotaAngulo > 90){
+			pelotaAngulo += anguloRandom(90);
 		} else {
-			pelota.angulo += anguloRandom(270);
+			pelotaAngulo += anguloRandom(270);
 		}
-		reboto = true;
 	}
 	
-	if(reboto){
-		pelota.posicion.x += sin(pelota.angulo) * pelota.magnitud;
-		pelota.posicion.y += cos(pelota.angulo) * pelota.magnitud;
-	} else {
-		pelota.posicion.x = siguienteX;
-		pelota.posicion.y = siguienteY;
+	if(pelotaX < 1){
+		pelotaX = 1;
 	}
 	
-	if(pelota.posicion.x < 0){
-		pelota.posicion.x = 0;
+	if(pelotaX > ANCHO - 1){
+		pelotaX = ANCHO - 1;
 	}
 	
-	if(pelota.posicion.x > ANCHO){
-		pelota.posicion.x = ANCHO;
+	if(pelotaY < 1){
+		pelotaY = 1;
 	}
 	
-	if(pelota.posicion.y < 0){
-		pelota.posicion.y = 0;
+	if(pelotaY > ALTO - 1){
+		pelotaY = ALTO - 1;
 	}
-	
-	if(pelota.posicion.y > ALTO){
-		pelota.posicion.y = ALTO;
-	}
-	
-	return pelota;
 }
 
 int main(int argc, char *argv[]) {
 	srand(time(NULL));
-	struct vector pelota;
-	pelota.posicion.x = 0;
-	pelota.posicion.y = 0;
-	pelota.angulo = 315;
-	pelota.magnitud = 2;
 	
 	char key;
 	int i = 0;
 	while(key != 's'){
-		pelota = calcularPelota(pelota);
+		calcularPelota();
 		
-		dibujarFondo(pelota);
+		dibujarFondo();
 
 		usleep(100000);
 		if(kbhit()){
