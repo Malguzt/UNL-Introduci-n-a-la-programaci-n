@@ -9,10 +9,10 @@ using namespace std;
 #define ANCHO 80
 #define ALTO 30
 
-float pelotaX = 0;
-float pelotaY = 0;
-float pelotaAngulo = 315;
-float pelotaVelocidad = 2;
+float pelotaX = 2;
+float pelotaY = 2;
+int pelotaAngulo = 315;
+float pelotaVelocidad = 0.02;
 
 void dibujarFondo(){
 	for(int i = 0; i < ANCHO; i++){
@@ -31,69 +31,53 @@ void dibujarFondo(){
 	}
 	
 	gotoxy(0, ALTO + 2);
-	cout << "Angulo: " << pelotaAngulo << "      ";
-	cout << "(x, y): (" << ceil(pelotaX) << "; " << ceil(pelotaY) << ")      \n";
-}
-
-int anguloRandom(int anguloBase){
-	int nuevoAngulo = rand()% 5 + (anguloBase - 2);
-	
-	gotoxy(0, ALTO + 4);
-	cout << "Nuevo angulo: " << nuevoAngulo << "        ";
-
-	return anguloBase;
+	cout << "Angulo: " << pelotaAngulo << " cos: " << cos(pelotaAngulo) << " sin: " << sin(pelotaAngulo);
+	cout << "(x, y): (" << pelotaX << "; " << pelotaY << ")      \n";
 }
 
 void calcularPelota(){
-	pelotaX += sin(pelotaAngulo) * pelotaVelocidad;
-	pelotaY += cos(pelotaAngulo) * pelotaVelocidad;
+	cout << "\nSeno: " << sin(pelotaAngulo) << " Coseno: " << cos(pelotaAngulo);
+	if(pelotaAngulo > 180){
+		pelotaY += sin(pelotaAngulo) * pelotaVelocidad;
+	} else {
+		pelotaY -= sin(pelotaAngulo) * pelotaVelocidad;
+	}
+	pelotaX += cos(pelotaAngulo) * pelotaVelocidad;
 	
-	if(pelotaX >= ANCHO - 1){
+	if(pelotaX > ANCHO - 1){
+		pelotaX = ANCHO - 1;
 		if(pelotaAngulo > 270){
-			pelotaAngulo -= anguloRandom(90);
+			pelotaAngulo -= 90;
 		} else {
-			pelotaAngulo += anguloRandom(90);
-		}
-	}
-	
-	if(pelotaY >= ALTO - 1){
-		if(pelotaAngulo > 270){
-			pelotaAngulo -= anguloRandom(270);
-		} else {
-			pelotaAngulo -= anguloRandom(90);
-		}
-	}
-	
-	if(pelotaX <= 1){
-		if(pelotaAngulo > 180){
-			pelotaAngulo += anguloRandom(90);
-		} else {
-			pelotaAngulo -= anguloRandom(90);
-		}
-	}
-	
-	if(pelotaY <= 1){
-		if(pelotaAngulo > 90){
-			pelotaAngulo += anguloRandom(90);
-		} else {
-			pelotaAngulo += anguloRandom(270);
+			pelotaAngulo += 90;
 		}
 	}
 	
 	if(pelotaX < 1){
 		pelotaX = 1;
+		if(pelotaAngulo > 180){
+			pelotaAngulo += 90;
+		} else {
+			pelotaAngulo -= 90;
+		}
 	}
 	
-	if(pelotaX > ANCHO - 1){
-		pelotaX = ANCHO - 1;
+	if(ceil(pelotaY) > ALTO - 1){
+		pelotaY = ALTO - 1;
+		if(pelotaAngulo > 270){
+			pelotaAngulo -= 270;
+		} else {
+			pelotaAngulo -= 90;
+		}
 	}
 	
 	if(pelotaY < 1){
 		pelotaY = 1;
-	}
-	
-	if(pelotaY > ALTO - 1){
-		pelotaY = ALTO - 1;
+		if(pelotaAngulo > 90){
+			pelotaAngulo += 90;
+		} else {
+			pelotaAngulo += 270;
+		}
 	}
 }
 
@@ -107,10 +91,13 @@ int main(int argc, char *argv[]) {
 		
 		dibujarFondo();
 
-		usleep(100000);
+		//usleep(100000);
 		if(kbhit()){
 			key = getch();
 		}
+		
+		gotoxy(0, ALTO + 8);
+		cout << "Vuelta: " << i++;
 	}
 	
 	return 0;
