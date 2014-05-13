@@ -5,7 +5,7 @@
 
 using namespace std;
 
-int dado(int caras, int &salida);
+bool dado(int caras, int &salida);
 
 int main(int argc, char *argv[]) {
 	srand(time(NULL));
@@ -20,7 +20,7 @@ int main(int argc, char *argv[]) {
 	return 0;
 }
 
-int dado(int caras, int &salida){
+bool dado(int caras, int &salida){
 	if(caras > 0) {
 		salida = rand() % caras + 1;
 		return true;
