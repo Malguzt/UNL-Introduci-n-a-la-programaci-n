@@ -7,6 +7,7 @@ using namespace std;
 
 int dado(int caras);
 int penalizacion(int caras, int maximo);
+bool se_puede(int caras, int modificador);
 
 int main(int argc, char *argv[]) {
 	srand(time(NULL));
@@ -26,11 +27,27 @@ int dado(int caras){
 	return rand() % caras + 1;
 }
 
+bool se_puede(int caras, int modificador){
+	bool posible = true;
+	
+	if(modificador < 2){
+		posible = false;
+	}
+	
+	if(modificador >= caras){
+		posible = false;
+	}
+	
+	return posible;
+}
+
 int penalizacion(int caras, int maximo){
-	int tirada;
-	do{
-		tirada = dado(caras);
-	} while(tirada >= maximo);
+	int tirada = 0;
+	if(se_puede(caras, maximo)){
+		do{
+			tirada = dado(caras);
+		} while(tirada >= maximo);
+	}
 	
 	return tirada;
 }
