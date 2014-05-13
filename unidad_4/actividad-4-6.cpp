@@ -30,7 +30,6 @@ int penalizacion(int caras, int maximo){
 	int tirada;
 	do{
 		tirada = dado(caras);
-		cout << tirada << endl;
 	} while(tirada >= maximo);
 	
 	return tirada;
