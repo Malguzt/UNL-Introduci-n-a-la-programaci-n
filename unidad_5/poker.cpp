@@ -1,5 +1,6 @@
 #include <iostream>
 #include <cstdlib>
+#include <ctime>
 
 const char corazon[] = "\xe2\x99\xa5";
 const char diamante[] = "\xe2\x99\xa6";
@@ -16,14 +17,39 @@ typedef struct {
 } carta;
 
 carta obtenerCarta(int numero);
+void nuevoMazo(int mazo[]);
 
 int main(int argc, char *argv[]) {
+	srand(time(NULL));
 	carta nuevaCarta;
+
+	int mazo[52];
+	nuevoMazo(mazo);
 	
-	for (int i = 1; i < 53; ++i)
-	{
-		nuevaCarta = obtenerCarta(i);
+	for (int i = 1; i < 53; ++i){
+		nuevaCarta = obtenerCarta(mazo[i]);
   	cout << nuevaCarta.numero[0] << nuevaCarta.numero[1] << " de " << nuevaCarta.palo << '\n';
+	}
+}
+
+void nuevoMazo(int mazo[]){
+	int index;
+	for (int i = 0; i < 53; ++i)
+	{
+		mazo[i] = 0;
+	}
+
+	for (int i = 1; i < 53; ++i){
+		index = rand() % 52 + 1;
+		while(mazo[index] != 0) {
+		    index++;
+		    if(index > 52){
+		    	index = 0;
+		    }
+		}
+
+		cout << index << " => " << i << endl;
+		mazo[index] = i;
 	}
 }
 
