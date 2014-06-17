@@ -1,6 +1,7 @@
 #include <iostream>
 #include <cstdlib>
 #include <ctime>
+#include <conio2.h>
 
 const char corazon[] = "\xe2\x99\xa5";
 const char diamante[] = "\xe2\x99\xa6";
@@ -18,6 +19,7 @@ typedef struct {
 
 carta obtenerCarta(int numero);
 void nuevoMazo(int mazo[]);
+void dibujarCarta(carta laCarta, int x, int y);
 
 int main(int argc, char *argv[]) {
 	srand(time(NULL));
@@ -28,8 +30,19 @@ int main(int argc, char *argv[]) {
 	
 	for (int i = 1; i < 53; ++i){
 		nuevaCarta = obtenerCarta(mazo[i]);
-  	cout << nuevaCarta.numero[0] << nuevaCarta.numero[1] << " de " << nuevaCarta.palo << '\n';
+  	dibujarCarta(nuevaCarta, 0, 0);
 	}
+}
+
+void dibujarCarta(carta laCarta, int x, int y){
+	cout << "**********" << endl;
+	cout << "*" << laCarta.numero[0] << laCarta.numero[1] << "      *\n";
+	cout << "*" << laCarta.palo << "       *" << endl;
+	cout << "*        *" << endl;
+	cout << "*        *" << endl;
+	cout << "*       " << laCarta.palo << "*" << endl;
+	cout << "*      " << laCarta.numero[0] << laCarta.numero[1] << "*\n";
+	cout << "**********" << endl;
 }
 
 void nuevoMazo(int mazo[]){
