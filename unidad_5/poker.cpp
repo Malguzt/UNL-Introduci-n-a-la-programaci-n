@@ -19,29 +19,51 @@ typedef struct {
 
 carta obtenerCarta(int numero);
 void nuevoMazo(int mazo[]);
+void dibujarMano(int mano[], int y);
 void dibujarCarta(carta laCarta, int x, int y);
 
 int main(int argc, char *argv[]) {
 	srand(time(NULL));
 	carta nuevaCarta;
+	int siguienteCarta = 0;
+	int manoJugador[5], manoComputadora[5];
 
 	int mazo[52];
 	nuevoMazo(mazo);
 	
-	for (int i = 1; i < 53; ++i){
-		nuevaCarta = obtenerCarta(mazo[i]);
-  	dibujarCarta(nuevaCarta, 0, 0);
+	for (int i = 0; i < 6; ++i){
+		manoJugador[i] = mazo[siguienteCarta++];
+		manoComputadora[i] = mazo[siguienteCarta++];
+	}
+
+	clrscr();
+
+	dibujarMano(manoJugador, 0);
+	dibujarMano(manoComputadora, 10);
+}
+
+void dibujarMano(int mano[], int y){
+	for(int i = 0; i < 6; i++){
+		dibujarCarta(obtenerCarta(mano[i]), i * 13, y);
 	}
 }
 
 void dibujarCarta(carta laCarta, int x, int y){
+	gotoxy(x, y++);
 	cout << "**********" << endl;
+	gotoxy(x, y++);
 	cout << "*" << laCarta.numero[0] << laCarta.numero[1] << "      *\n";
+	gotoxy(x, y++);
 	cout << "*" << laCarta.palo << "       *" << endl;
+	gotoxy(x, y++);
 	cout << "*        *" << endl;
+	gotoxy(x, y++);
 	cout << "*        *" << endl;
+	gotoxy(x, y++);
 	cout << "*       " << laCarta.palo << "*" << endl;
+	gotoxy(x, y++);
 	cout << "*      " << laCarta.numero[0] << laCarta.numero[1] << "*\n";
+	gotoxy(x, y++);
 	cout << "**********" << endl;
 }
 
@@ -61,7 +83,6 @@ void nuevoMazo(int mazo[]){
 		    }
 		}
 
-		cout << index << " => " << i << endl;
 		mazo[index] = i;
 	}
 }
