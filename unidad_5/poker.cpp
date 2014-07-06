@@ -18,6 +18,7 @@ typedef struct {
 } carta;
 
 carta obtenerCarta(int numero);
+void ordenar(int *numeros);
 void nuevoMazo(int mazo[]);
 void dibujarMano(int mano[], int y);
 void dibujarCarta(carta laCarta, int x, int y);
@@ -38,13 +39,43 @@ int main(int argc, char *argv[]) {
 
 	clrscr();
 
+	ordenar(manoJugador);
 	dibujarMano(manoJugador, 0);
-	dibujarMano(manoComputadora, 10);
+	int i = 0;
+	int cambio;
+	int cambios[4];
+	do {
+    cout << "\nIngrese una pocición valida para cambiar o 0 para terminar.\n";
+    cin >> cambio;
+    	
+  	if(cambio > 0 && cambio < 6){
+  		cambios[i++] = cambio;
+    }
+	} while(i < 5 && cambio > 0);
+
+	ordenar(cambios);
+
+	bool cambiar;
+	for(int i = 0; i < 4; i++){
+		cambiar = true;
+		if(cambios[i] <= 0 || (i > 0 && cambios[i] == cambios[i - 1])){
+			cambiar = false;
+		}
+
+		if(cambiar){
+			manoJugador[cambios[i] - 1] = mazo[siguienteCarta++];
+		}
+	}
+
+	dibujarMano(manoJugador, 10);
+	// dibujarMano(manoComputadora, 10);
 }
 
 void dibujarMano(int mano[], int y){
 	for(int i = 0; i < 6; i++){
 		dibujarCarta(obtenerCarta(mano[i]), i * 13, y);
+		gotoxy(i * 13 + 5, y + 8);
+		cout << i + 1;
 	}
 }
 
@@ -140,4 +171,23 @@ carta obtenerCarta(int numero){
 	}
 
 	return laCarta;
+}
+
+void ordenar(int *numeros){
+	int aux;
+	bool ordenado = false;
+	
+	while (!ordenado){
+		ordenado = true;
+		
+		for(int i = 0; i < 5; i++){
+			if(numeros[i] > numeros[i + 1]){
+				ordenado = false;
+				
+				aux = numeros[i];
+				numeros[i] = numeros[i + 1];
+				numeros[i + 1] = aux;
+			}
+		}
+	}
 }
