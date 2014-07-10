@@ -8,17 +8,33 @@ typedef char palabra[13];
 palabra *agregarPalabra(palabra* palabras, palabra nuevaPalabra);
 
 int main(int argc, char const *argv[]){
-  palabra *palabras = NULL;
+  char **palabras = NULL;
   
   cout << "Intodusca las palabras a procesar de menos de 12 letras.\n";
-  palabra nuevaPalabra;
+  
+  char *nuevaPalabra;
+  char **palabrasAnteriores;
+  int j = 0;
 
-  while(cin.getline(nuevaPalabra, 12)){
-    agregarPalabra(palabras, nuevaPalabra);
+  while(cin.getline(nuevaPalabra, 12) && !strstr(nuevaPalabra, "XX")){
+    palabrasAnteriores = palabras;
+
+    palabras = new char* [j + 1];
+
+    for (int i = 0; i < j; ++i){
+      palabras[i] = palabrasAnteriores[i];
+    }
+
+    palabras[j] = nuevaPalabra;
+
+    j++;
+    delete palabrasAnteriores;
   }
 
-  for (int i = 0; i < sizeof(palabras) / sizeof(palabra); ++i){
-    cout << nuevaPalabra << endl;
+  cout << "\nLas palabras cargadas fueron: \n";
+  
+  for (int i = 0; i < j; ++i){
+    cout << palabras[i] << endl;
   }
 
   return 0;
