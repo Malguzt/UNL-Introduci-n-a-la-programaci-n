@@ -4,15 +4,14 @@
 using namespace std;
 
 typedef char palabra[13];
-
-palabra *agregarPalabra(palabra* palabras, palabra nuevaPalabra);
+void ordenar(char **palabras, int cantidad);
 
 int main(int argc, char const *argv[]){
   char **palabras = NULL;
   
   cout << "Intodusca las palabras a procesar de menos de 12 letras.\n";
   
-  char *nuevaPalabra;
+  char *nuevaPalabra = new palabra;
   char **palabrasAnteriores;
   int j = 0;
 
@@ -29,9 +28,12 @@ int main(int argc, char const *argv[]){
 
     j++;
     delete palabrasAnteriores;
+    nuevaPalabra = new palabra;
   }
 
   cout << "\nLas palabras cargadas fueron: \n";
+
+  ordenar(palabras, j);
   
   for (int i = 0; i < j; ++i){
     cout << palabras[i] << endl;
@@ -40,21 +42,21 @@ int main(int argc, char const *argv[]){
   return 0;
 }
 
-palabra *agregarPalabra(palabra* palabras, palabra nuevaPalabra){
-  cout << palabras[0] << endl;
-
-  palabra *palabrasAnteriores;
-  palabrasAnteriores = palabras;
-
-  int cantidad = sizeof(palabrasAnteriores) / sizeof(palabra);
-  palabras = new palabra[cantidad + 1];
-
-  if(cantidad > 0){
-    memcpy (palabras, palabrasAnteriores, sizeof(palabrasAnteriores));
-  }
-  strcpy(palabras[cantidad], nuevaPalabra);
-
-  delete palabrasAnteriores;
+void ordenar(char **palabras, int cantidad){
+  char *aux;
+  bool ordenado = false;
   
-  return palabras;
+  while (!ordenado){
+    ordenado = true;
+    
+    for(int i = 0; i < cantidad; i++){
+      if(strcmp(palabras[i], palabras[i + 1]) > 0){
+        ordenado = false;
+        
+        aux = palabras[i];
+        palabras[i] = palabras[i + 1];
+        palabras[i + 1] = aux;
+      }
+    }
+  }
 }
