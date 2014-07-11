@@ -1,4 +1,5 @@
 #include <iostream>
+#include <stdio.h>
 #include <string.h>
 
 using namespace std;
@@ -9,7 +10,7 @@ void ordenar(char **palabras, int cantidad);
 int main(int argc, char const *argv[]){
   char **palabras = NULL;
   
-  cout << "Intodusca las palabras a procesar de menos de 12 letras.\n";
+  cout << "Intodusca las palabras a procesar de menos de 12 letras. Escriba XX para salir.\n";
   
   char *nuevaPalabra = new palabra;
   char **palabrasAnteriores;
@@ -31,12 +32,22 @@ int main(int argc, char const *argv[]){
     nuevaPalabra = new palabra;
   }
 
-  cout << "\nLas palabras cargadas fueron: \n";
+  cout << "\nLas palabras cargadas ordenadas alfabeticamente: \n";
 
   ordenar(palabras, j);
   
   for (int i = 0; i < j; ++i){
     cout << palabras[i] << endl;
+  }
+
+  cout << "\nLas palabras cargadas, en las posiciones pares ordenadas alfabeticamente: \n";
+
+  ordenar(palabras, j);
+  
+  for (int i = 0; i < j; ++i){
+    if(i % 2 == 0){
+      cout << palabras[i] << endl;
+    }
   }
 
   return 0;
@@ -49,7 +60,7 @@ void ordenar(char **palabras, int cantidad){
   while (!ordenado){
     ordenado = true;
     
-    for(int i = 0; i < cantidad; i++){
+    for(int i = 0; i < cantidad - 1; i++){
       if(strcmp(palabras[i], palabras[i + 1]) > 0){
         ordenado = false;
         
