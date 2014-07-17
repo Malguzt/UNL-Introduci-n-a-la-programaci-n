@@ -4,20 +4,21 @@
 #include <fstream>
 using namespace std;
 
-char *leerPalabra(char *archivo);
+char *leerPalabra(ifstream &archivo);
 
 int main(int argc, char const *argv[]){
-  ifstream archivo("palabras.txt");
-  char *palabra;
+  ifstream archivo("palabras");
+  char *palabra = new char[200];
 
-  palabra = leerPalabra(archivo);
+  archivo >> palabra;
+  // archivo.getline(palabra, 200, ' ');
 
   cout << "El contenido del archivo es:\n" << palabra << endl;
 
   return 0;
 }
 
-char *leerPalabra(char *archivo){
+char *leerPalabra(ifstream &archivo){
   char *palabra = new char[1];
   char *viejaPalabra;
 
@@ -25,6 +26,7 @@ char *leerPalabra(char *archivo){
   while(archivo.get(palabra[j - 1]) && !(palabra[j - 1] == ' ' || palabra[j - 1] == '\n')){
     viejaPalabra = palabra;
     palabra = new char[j + 1];
+    cout << palabra << endl;
 
     for(int i = 0; i < j; i++){
       palabra[i] = viejaPalabra[i];
