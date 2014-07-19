@@ -2,42 +2,43 @@
 #include <iostream>
 #include <string.h>
 #include <fstream>
+#include <cmath>
+#include <cstdlib>
+#include <ctime>
 using namespace std;
 
-char *leerPalabra(ifstream &archivo);
 
+
+typedef char palabra[20];
 int main(int argc, char const *argv[]){
-  ifstream archivo("palabras");
-  char *palabra = new char[200];
+  ifstream archivo("palabras.txt");
 
-  archivo >> palabra;
-  // archivo.getline(palabra, 200, ' ');
+  char **palabras = NULL;
+  char *nuevaPalabra = new palabra;
+  char **palabrasAnteriores;
+  int j = 0;
 
-  cout << "El contenido del archivo es:\n" << palabra << endl;
+  while(!archivo.eof()){
+    archivo >> nuevaPalabra;
+    palabrasAnteriores = palabras;
 
-  return 0;
-}
+    palabras = new char* [j + 1];
 
-char *leerPalabra(ifstream &archivo){
-  char *palabra = new char[1];
-  char *viejaPalabra;
-
-  int j = 1;
-  while(archivo.get(palabra[j - 1]) && !(palabra[j - 1] == ' ' || palabra[j - 1] == '\n')){
-    viejaPalabra = palabra;
-    palabra = new char[j + 1];
-    cout << palabra << endl;
-
-    for(int i = 0; i < j; i++){
-      palabra[i] = viejaPalabra[i];
+    for (int i = 0; i < j; ++i){
+      palabras[i] = palabrasAnteriores[i];
     }
 
-    delete viejaPalabra;
+    palabras[j] = nuevaPalabra;
 
     j++;
+    delete palabrasAnteriores;
+    nuevaPalabra = new palabra;
   }
 
-  palabra[j - 1] = '\0';
+  srand(time(NULL));
+  int x = rand()%j;
 
-  return palabra;
+  cout << palabras[x] << endl;
+  
+  return 0;
 }
