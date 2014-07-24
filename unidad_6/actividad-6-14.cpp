@@ -8,52 +8,56 @@
 #include <conio2.h>
 using namespace std;
 
-void dibujarSopa(char letras[20][20]);
-int cargarPalabras(char *nombreArchivo, char **palabras);
-
 typedef char palabra[20];
+typedef struct {
+  palabra letras;
+  int x;
+  int y;
+  bool vertical;
+} p_escondida;
+
+void dibujarSopa(char letras[20][20]);
+char **cargarPalabras(char *nombreArchivo, int& totalPalabras);
+p_escondida *acomodarPalabras(char **palabras, int totalPalabras);
+
 int main(int argc, char const *argv[]){
   srand(time(NULL));
-  char **palabras = NULL;
   char escondidas[5][20];
 
-  int totalPalabras = cargarPalabras("palabras.txt", palabras);
+  int totalPalabras;
+  char **palabras = cargarPalabras("palabras.txt", totalPalabras);
 
   char letras[20][20];
   
-  //Poniendo letras aleatoreas para la sopa
+  //Poniendo espacios en blanco
   for (int i = 0; i < 20; ++i){
     for (int j = 0; j < 20; ++j){
-       letras[i][j] = 'a' + rand()%26;
+       letras[i][j] = ' ';
     }
   }
   
-  //Definiendo palabras escondidas
-  for (int i = 0; i < 5; ++i){
-    int x = rand()%totalPalabras;
-    // for (int j = 0; j < 20; ++j){
-    //   escondidas[i][j] = palabras[x][j];
-    // }
-
-    // int j = 0;
-    // int posicion = rand()%20;
-    // while(j < 20 && escondidas[i][j] != '\0'){
-    //   letras[posicion][j] = escondidas[i][j];
-    //   j++;
-    // }
-  }
   
+  for (int i = 0; i < 20; ++i){
+    for (int j = 0; j < 20; ++j){
+      if(letras[i][j] == ' '){
+        // letras[i][j] = 'A' + rand()%26;
+        letras[i][j] = '_';
+      }
+    }
+  }
+
   dibujarSopa(letras);
   
   return 0;
 }
 
-int cargarPalabras(char *nombreArchivo, char **palabras){
+char **cargarPalabras(char *nombreArchivo, int& totalPalabras){
+  char **palabras = NULL;
   ifstream archivo(nombreArchivo);
 
   char *nuevaPalabra = new palabra;
   char **palabrasAnteriores;
-  int totalPalabras = 0;
+  totalPalabras = 0;
 
   while(!archivo.eof()){
     archivo >> nuevaPalabra;
@@ -72,7 +76,7 @@ int cargarPalabras(char *nombreArchivo, char **palabras){
     nuevaPalabra = new palabra;
   }
 
-  return totalPalabras;
+  return palabras;
 }
 
 void dibujarSopa(char letras[20][20]){
@@ -85,4 +89,42 @@ void dibujarSopa(char letras[20][20]){
     }
   }
   cout << endl;
+}
+
+p_escondida *acomodarPalabras(char **palabras, int totalPalabras){
+  p_escondida escondidas[5];
+
+  //Definiendo palabras escondidas
+  for (int i = 0; i < 5; ++i){
+    int n = rand()%totalPalabras;
+    for (int j = 0; j < 20; ++j){
+      escondidas[i].letras[j] = palabras[n][j];
+    }
+
+    int j = 0;
+    int x, y;
+    int vertical = rand()%2;
+    int largo = strlen(escondidas[i].letras);
+
+    if (vertical){
+      do{
+        y = rand()%20;
+      } while(y + largo >= 20);
+      x = rand()%20;
+    } else {
+      do{
+        x = rand()%20;
+      } while(x + largo >= 20);
+      y = rand()%20;
+    }
+
+    while(j < 20 && escondidas[i].letras[j] != '\0'){
+      if(vertical){
+        letras[x][y + j] = toupper(escondidas[i].letras[j]);
+      } else {
+        letras[x + j][y] = toupper(escondidas[i].letras[j]);
+      }
+      j++;
+    }
+  }
 }
