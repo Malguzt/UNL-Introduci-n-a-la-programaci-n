@@ -22,6 +22,7 @@ public:
   int getY();
   void rebotar(float anguloPared);
   void actualizar(int ancho, int alto);
+  void dibujar();
 };
 
 class Cuadro {
@@ -71,15 +72,13 @@ void Cuadro::dibujar(){
     }
     tablero += '\n';
   }
+  cout << tablero;
 
   gotoxy(1, 1);
-  int carcterNumero;
-  for(int i = 0; i < CANTIDAD_PELOTAS; i++){
-    carcterNumero = (pelotas[i].getY() - 1) * ancho + pelotas[i].getX();
-    tablero[carcterNumero] = (tablero[carcterNumero] == ' ')? 'o' : tablero[carcterNumero];
-  }
 
-  cout << tablero;
+  for(int i = 0; i < CANTIDAD_PELOTAS; i++){
+    pelotas[i].dibujar();
+  }
 }
 
 void Cuadro::actualizar(){
@@ -91,8 +90,8 @@ void Cuadro::actualizar(){
 Pelota::Pelota(){
   x = 1;
   y = 1;
-  angulo = (rand() % 2 + 6) * M_PI / 5; // 315 grados en radianes.
-  velocidad = rand() % 4 + 1;
+  angulo = (rand() % 20 + 26) * M_PI / 25; // 315 grados en radianes.
+  velocidad = rand() % 6 + 1;
   color = rand() % 10 + 1;
 }
 
@@ -102,6 +101,12 @@ int Pelota::getY(){
 
 int Pelota::getX(){
   return ceil(x);
+}
+
+void Pelota::dibujar(){
+  gotoxy(getX(), getY());
+  textcolor(color);
+  cout << 'o' << endl;
 }
 
 void Pelota::rebotar(float anguloPared){
@@ -115,8 +120,8 @@ void Pelota::actualizar(int ancho, int alto){
     x += cos(angulo) * velocidad;
     
     // Calcular el rebote de la pelota
-    if(getX() > ancho - 3){ 
-      x = ancho - 3;
+    if(getX() > ancho - 2){ 
+      x = ancho - 2;
       rebotar(3/2 * M_PI);
     }
 
