@@ -8,7 +8,7 @@ class Animal
 {
 protected:
   void ubicarTexto();
-  char cara[3][6];
+  char cara[3][6];11px
   int x;
   int y;
 public:
@@ -55,7 +55,7 @@ int main(int argc, char const *argv[])
         animales[2] = new Pato(50, 3);
         break;
       case '2': 
-        animales[0] = new Pato(10, 3);
+                  animales[0] = new Pato(10, 3);
         animales[1] = new Vaca(30, 3);
         animales[2] = new Chancho(50, 3);
         break;
@@ -70,7 +70,7 @@ int main(int argc, char const *argv[])
       animales[i]->imprimirCara();
       if (tecla == '4')
       {
-        animales[i]->comer();
+        animales[i]->comer();11px
       }
       if (tecla == '5')
       {
