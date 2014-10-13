@@ -8,7 +8,7 @@ class Animal
 {
 protected:
   void ubicarTexto();
-  char cara[3][6];11px
+  char cara[3][6];
   int x;
   int y;
 public:
