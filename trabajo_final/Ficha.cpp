@@ -18,6 +18,8 @@ Ficha::Ficha(int xx, int yy)
     dibujo[2][0] = '+'; dibujo[2][1] = '-'; dibujo[2][2] = '+';
 
     color = RED;
+
+    enLinea = false;
 }
 
 Ficha::Ficha(const Ficha& orig)
@@ -44,13 +46,34 @@ Ficha* Ficha::setX(int xx)
     return this;
 }
 
+Ficha* Ficha::setEnLinea(const bool valor)
+{
+    enLinea |= valor;
+
+    return this;
+}
+
 void Ficha::dibujar()
 {
     for(int i = 0; i < 3; i++)
     {
-        textcolor(color);
+        if(enLinea)
+        {
+            textcolor(11);
+        } else {
+            textcolor(color);
+        }
         gotoxy(x * 4, y * 4 + i);
         cout << dibujo[i][0] << dibujo[i][1] << dibujo[i][2] ;
     }
 }
 
+bool Ficha::controlar(Ficha* anterior, Ficha* siguiente)
+{
+    return false;
+}
+
+bool Ficha::operator==(const Ficha& otro)
+{
+    return dibujo[1][1] == otro.dibujo[1][1];
+}

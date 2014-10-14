@@ -1,16 +1,16 @@
 # depslib dependency file v1.0
-1413174134 source:/home/malguzt/projects/unl/intro_programacion/trabajo_final/Ficha.cpp
+1413244240 source:/home/malguzt/projects/unl/intro_programacion/trabajo_final/Ficha.cpp
 	"Ficha.h"
 	<iostream>
 	<conio2.h>
 
-1413173912 /home/malguzt/projects/unl/intro_programacion/trabajo_final/Ficha.h
+1413237867 /home/malguzt/projects/unl/intro_programacion/trabajo_final/Ficha.h
 
-1413171988 source:/home/malguzt/projects/unl/intro_programacion/trabajo_final/main.cpp
+1413229788 source:/home/malguzt/projects/unl/intro_programacion/trabajo_final/main.cpp
 	<iostream>
 	"Nivel.h"
 
-1413174626 /home/malguzt/projects/unl/intro_programacion/trabajo_final/Nivel.h
+1413229804 /home/malguzt/projects/unl/intro_programacion/trabajo_final/Nivel.h
 	"Ficha.h"
 	"FichaA.h"
 	"FichaB.h"
@@ -20,16 +20,17 @@
 	"FichaF.h"
 	<list>
 
-1413174601 source:/home/malguzt/projects/unl/intro_programacion/trabajo_final/Nivel.cpp
+1413244737 source:/home/malguzt/projects/unl/intro_programacion/trabajo_final/Nivel.cpp
 	"Nivel.h"
-	<cstdio>
-	<cstdlib>
 	<iostream>
+	<time.h>
+	<stdlib.h>
+	<stdio.h>
 
-1413173924 source:/home/malguzt/projects/unl/intro_programacion/trabajo_final/FichaA.cpp
+1413227454 source:/home/malguzt/projects/unl/intro_programacion/trabajo_final/FichaA.cpp
 	"FichaA.h"
 
-1413173821 /home/malguzt/projects/unl/intro_programacion/trabajo_final/FichaA.h
+1413227454 /home/malguzt/projects/unl/intro_programacion/trabajo_final/FichaA.h
 	<Ficha.h>
 
 1413174311 /home/malguzt/projects/unl/intro_programacion/trabajo_final/FichaB.h
@@ -38,17 +39,17 @@
 1413174315 source:/home/malguzt/projects/unl/intro_programacion/trabajo_final/FichaB.cpp
 	"FichaB.h"
 
-1413174556 source:/home/malguzt/projects/unl/intro_programacion/trabajo_final/FichaC.cpp
-	"FichaA.h"
+1413174982 source:/home/malguzt/projects/unl/intro_programacion/trabajo_final/FichaC.cpp
+	"FichaC.h"
 
-1413174557 source:/home/malguzt/projects/unl/intro_programacion/trabajo_final/FichaD.cpp
-	"FichaA.h"
+1413174982 source:/home/malguzt/projects/unl/intro_programacion/trabajo_final/FichaD.cpp
+	"FichaD.h"
 
-1413174557 source:/home/malguzt/projects/unl/intro_programacion/trabajo_final/FichaE.cpp
-	"FichaA.h"
+1413174982 source:/home/malguzt/projects/unl/intro_programacion/trabajo_final/FichaE.cpp
+	"FichaE.h"
 
-1413174557 source:/home/malguzt/projects/unl/intro_programacion/trabajo_final/FichaF.cpp
-	"FichaA.h"
+1413174982 source:/home/malguzt/projects/unl/intro_programacion/trabajo_final/FichaF.cpp
+	"FichaF.h"
 
 1413174836 /home/malguzt/projects/unl/intro_programacion/trabajo_final/FichaC.h
 	<Ficha.h>

@@ -9,14 +9,18 @@ public:
     Ficha(const Ficha& orig);
     Ficha* setX(int xx);
     Ficha* setY(int yy);
+    Ficha* setEnLinea(const bool valor);
     virtual ~Ficha();
     void dibujar();
+    bool controlar(Ficha* anterior, Ficha* siguiente);
+    bool operator==(const Ficha& otro);
 protected:
     char dibujo[3][3];
     int color;
 private:
     int x;
     int y;
+    bool enLinea;
 };
 
 #endif // FICHA_H
