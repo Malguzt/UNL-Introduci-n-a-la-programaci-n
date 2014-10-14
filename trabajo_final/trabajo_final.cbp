@@ -42,6 +42,8 @@
 		<Unit filename="FichaA.h" />
 		<Unit filename="FichaB.cpp" />
 		<Unit filename="FichaB.h" />
+		<Unit filename="FichaBorrada.cpp" />
+		<Unit filename="FichaBorrada.h" />
 		<Unit filename="FichaC.cpp" />
 		<Unit filename="FichaC.h" />
 		<Unit filename="FichaD.cpp" />

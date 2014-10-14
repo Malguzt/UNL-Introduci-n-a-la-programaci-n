@@ -17,7 +17,7 @@ Nivel::Nivel(int al, int an) {
     for(int i = 0; i < alto; i++){
         fichas[i] = new Ficha*[ancho];
         for(int j = 0; j < ancho; j++){
-            fichas[i][j] = newFicha(j + 1, i + 1); //j es el ancho, por eso esta en x
+            fichas[i][j] = nuevaFicha(j + 1, i + 1); //j es el ancho, por eso esta en x
         }
     }
 }
@@ -32,6 +32,7 @@ Nivel::~Nivel() {
 }
 
 void Nivel::dibujar() {
+    system("clear");
     for(int i = 0; i < alto; i++){
         for(int j = 0; j < ancho; j++){
             fichas[i][j]->dibujar();
@@ -40,7 +41,7 @@ void Nivel::dibujar() {
     }
 }
 
-Ficha* Nivel::newFicha(int x, int y)
+Ficha* Nivel::nuevaFicha(int x, int y)
 {
     int tipoDeFicha = rand() % 6;
     switch (tipoDeFicha)
@@ -69,8 +70,9 @@ Ficha* Nivel::newFicha(int x, int y)
     }
 }
 
-void Nivel::controlar()
+bool Nivel::controlar()
 {
+    bool sinLineas = true;
     for(int i = 0; i < alto; i++)
     {
         for(int j = 0; j < ancho; j++)
@@ -86,6 +88,8 @@ void Nivel::controlar()
                     a->setEnLinea(true);
                     b->setEnLinea(true);
                     c->setEnLinea(true);
+
+                    sinLineas = false;
                 }
             }
 
@@ -98,8 +102,59 @@ void Nivel::controlar()
                     a->setEnLinea(true);
                     b->setEnLinea(true);
                     c->setEnLinea(true);
+
+                    sinLineas = false;
                 }
             }
         }
     }
+
+    return sinLineas;
+}
+
+void Nivel::borrarAlineadas()
+{
+    for(int i = 0; i < alto; i++)
+    {
+        for(int j = 0; j < ancho; j++)
+        {
+            if(fichas[i][j]->estaAlineada())
+            {
+                delete fichas[i][j];
+                fichas[i][j] = new FichaBorrada(j + 1, i + 1);
+            }
+        }
+    }
+}
+
+bool Nivel::rellenar()
+{
+    bool completo = true;
+    for(int i = alto - 1; i >= 0; i--)
+    {
+        for(int j = 0; j < ancho; j++)
+        {
+            if(fichas[i][j]->estaBorrada())
+            {
+                bajarColumna(i, j);
+                completo = false;
+            }
+        }
+        dibujar();
+    }
+
+    return completo;
+}
+
+void Nivel::bajarColumna(int fila, int columna)
+{
+    delete fichas[fila][columna];
+    for(int i = fila; i > 0; i--)
+    {
+        fichas[i][columna] = fichas[i - 1][columna];
+        fichas[i][columna]->setX(columna + 1);
+        fichas[i][columna]->setY(i + 1);
+    }
+
+    fichas[0][columna] = nuevaFicha(columna + 1, 1);
 }

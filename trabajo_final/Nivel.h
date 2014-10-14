@@ -5,6 +5,7 @@
 #include "FichaD.h"
 #include "FichaE.h"
 #include "FichaF.h"
+#include "FichaBorrada.h"
 #include <list>
 #ifndef NIVEL_H
 #define NIVEL_H
@@ -17,12 +18,15 @@ public:
     Nivel(const Nivel& orig);
     virtual ~Nivel();
     void dibujar();
-    void controlar();
+    bool controlar();
+    void borrarAlineadas();
+    bool rellenar();
 private:
     Ficha ***fichas;
     int ancho;
     int alto;
-    Ficha* newFicha(int x, int y);
+    Ficha* nuevaFicha(int x, int y);
+    void bajarColumna(int fila, int columna);
 };
 
 #endif // NIVEL_H

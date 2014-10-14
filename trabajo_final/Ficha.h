@@ -14,6 +14,8 @@ public:
     void dibujar();
     bool controlar(Ficha* anterior, Ficha* siguiente);
     bool operator==(const Ficha& otro);
+    virtual bool estaBorrada();
+    bool estaAlineada();
 protected:
     char dibujo[3][3];
     int color;

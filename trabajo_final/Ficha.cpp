@@ -77,3 +77,13 @@ bool Ficha::operator==(const Ficha& otro)
 {
     return dibujo[1][1] == otro.dibujo[1][1];
 }
+
+bool Ficha::estaBorrada()
+{
+    return false;
+}
+
+bool Ficha::estaAlineada()
+{
+    return enLinea;
+}
