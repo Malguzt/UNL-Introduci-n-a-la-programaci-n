@@ -1,3 +1,4 @@
+#include <ncurses.h>
 #include "Nivel.h"
 #include <iostream>
 #include <time.h>
@@ -20,6 +21,11 @@ Nivel::Nivel(int al, int an) {
             fichas[i][j] = nuevaFicha(j + 1, i + 1); //j es el ancho, por eso esta en x
         }
     }
+
+    seleccionada = fichas[0][0]->seleccionar();
+	
+	vidas = 20;
+	puntos = 0;
 }
 
 Nivel::Nivel(const Nivel& orig) {
@@ -31,14 +37,30 @@ Nivel::~Nivel() {
     delete[] fichas[ancho];
 }
 
-void Nivel::dibujar() {
-    system("clear");
+void Nivel::dibujar() {	
+	initscr();
+	
+	clear();
+	if(seleccionada == NULL)
+	{
+		seleccionada = fichas[0][0]->seleccionar();
+	}
     for(int i = 0; i < alto; i++){
         for(int j = 0; j < ancho; j++){
             fichas[i][j]->dibujar();
         }
         cout << endl;
     }
+	
+	init_pair(COLOR_GREEN, COLOR_GREEN, COLOR_BLACK);
+	attrset(COLOR_PAIR(COLOR_GREEN));
+	
+	move((alto + 1) * 4, 0);
+	
+	printw("Puntos: %d \n", puntos);
+	printw("Movimientos: %d \n", vidas);
+	
+	refresh();
 }
 
 Ficha* Nivel::nuevaFicha(int x, int y)
@@ -90,6 +112,7 @@ bool Nivel::controlar()
                     c->setEnLinea(true);
 
                     sinLineas = false;
+					puntos++;
                 }
             }
 
@@ -104,6 +127,7 @@ bool Nivel::controlar()
                     c->setEnLinea(true);
 
                     sinLineas = false;
+					puntos++;
                 }
             }
         }
@@ -140,7 +164,6 @@ bool Nivel::rellenar()
                 completo = false;
             }
         }
-        dibujar();
     }
 
     return completo;
@@ -152,9 +175,97 @@ void Nivel::bajarColumna(int fila, int columna)
     for(int i = fila; i > 0; i--)
     {
         fichas[i][columna] = fichas[i - 1][columna];
-        fichas[i][columna]->setX(columna + 1);
-        fichas[i][columna]->setY(i + 1);
+        fichas[i][columna]->setX(columna + 1)->setY(i + 1);
     }
 
     fichas[0][columna] = nuevaFicha(columna + 1, 1);
+}
+
+void Nivel::moverArriba()
+{
+	if(seleccionada->getY() > 1)
+	{
+		seleccionada->deseleccionar();
+		seleccionada = fichas[seleccionada->getY() - 2][seleccionada->getX() -1];
+		seleccionada->seleccionar();
+	}
+}
+
+void Nivel::moverAbajo()
+{
+	if(seleccionada->getY() < alto)
+	{
+		seleccionada->deseleccionar();
+		seleccionada = fichas[seleccionada->getY()][seleccionada->getX() -1];
+		seleccionada->seleccionar();
+	}
+}
+
+void Nivel::moverDerecha()
+{
+	if(seleccionada->getX() < ancho)
+	{
+		seleccionada->deseleccionar();
+		seleccionada = fichas[seleccionada->getY() - 1][seleccionada->getX()];
+		seleccionada->seleccionar();
+	}
+}
+
+void Nivel::moverIzquierda()
+{
+	if(seleccionada->getX() > 1)
+	{
+		seleccionada->deseleccionar();
+		seleccionada = fichas[seleccionada->getY() - 1][seleccionada->getX() - 2];
+		seleccionada->seleccionar();
+	}
+}
+
+void Nivel::intercambiar()
+{
+	int tecla;
+	bool cursor = false;
+	int nuevoX, x, nuevoY, y;
+	nuevoX = x = seleccionada->getX() - 1;
+	nuevoY = y = seleccionada->getY() - 1;
+	
+	while(!cursor)
+	{
+		tecla = getch();
+		switch(tecla)
+		{
+		case 68:
+			nuevoX--;
+			cursor = true;
+			break;
+		case 67:
+			nuevoX++;
+			cursor = true;
+			break;
+		case 65:
+			nuevoY--;
+			cursor = true;
+			break;
+		case 66:
+			nuevoY++;
+			cursor = true;
+			break;
+		}
+	}
+	
+	Ficha* aux = seleccionada;
+	fichas[y][x] = fichas[nuevoY][nuevoX]->setX(x + 1)->setY(y + 1);
+	fichas[nuevoY][nuevoX] = aux->setX(nuevoX + 1)->setY(nuevoY + 1);
+	
+	vidas--;
+}
+
+bool Nivel::termino()
+{
+	return vidas <= 0;
+}
+
+int Nivel::getPuntos()
+{
+	return puntos;
 }

@@ -1,7 +1,7 @@
 #ifndef FICHAA_H
 #define FICHAA_H
 
-#include <Ficha.h>
+#include "Ficha.h"
 
 
 class FichaA : public Ficha

@@ -1,6 +1,6 @@
 #include "Ficha.h"
 #include <iostream>
-#include <conio2.h>
+#include <ncurses.h>
 
 using namespace std;
 
@@ -17,9 +17,11 @@ Ficha::Ficha(int xx, int yy)
     dibujo[1][0] = '|'; dibujo[1][1] = 'X'; dibujo[1][2] = '|';
     dibujo[2][0] = '+'; dibujo[2][1] = '-'; dibujo[2][2] = '+';
 
-    color = RED;
+    color = COLOR_RED;
 
     enLinea = false;
+
+    seleccionada = false;
 }
 
 Ficha::Ficha(const Ficha& orig)
@@ -55,16 +57,26 @@ Ficha* Ficha::setEnLinea(const bool valor)
 
 void Ficha::dibujar()
 {
+	start_color();
     for(int i = 0; i < 3; i++)
     {
+		init_pair(COLOR_WHITE, COLOR_WHITE, COLOR_BLACK);
         if(enLinea)
         {
-            textcolor(11);
+			attrset(COLOR_PAIR(COLOR_WHITE));
         } else {
-            textcolor(color);
+			init_pair(color, color, COLOR_BLACK);
+			attrset(COLOR_PAIR(color));
         }
-        gotoxy(x * 4, y * 4 + i);
-        cout << dibujo[i][0] << dibujo[i][1] << dibujo[i][2] ;
+        move((y-1) * 4 + i, (x-1) * 4);
+
+        if(seleccionada && (i == 2 || i == 0))
+        {
+			attrset(COLOR_PAIR(COLOR_WHITE));
+        }
+		addch(dibujo[i][0]);
+		addch(dibujo[i][1]);
+		addch(dibujo[i][2]);
     }
 }
 
@@ -87,3 +99,28 @@ bool Ficha::estaAlineada()
 {
     return enLinea;
 }
+
+Ficha* Ficha::deseleccionar()
+{
+    seleccionada = false;
+
+    return this;
+}
+
+Ficha* Ficha::seleccionar()
+{
+    seleccionada = true;
+
+    return this;
+}
+
+int Ficha::getY()
+{
+    return y;
+}
+
+int Ficha::getX()
+{
+    return x;
+}
+

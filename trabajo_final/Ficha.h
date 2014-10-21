@@ -16,6 +16,10 @@ public:
     bool operator==(const Ficha& otro);
     virtual bool estaBorrada();
     bool estaAlineada();
+    Ficha* seleccionar();
+    Ficha* deseleccionar();
+    int getX();
+    int getY();
 protected:
     char dibujo[3][3];
     int color;
@@ -23,6 +27,7 @@ private:
     int x;
     int y;
     bool enLinea;
+    bool seleccionada;
 };
 
 #endif // FICHA_H
